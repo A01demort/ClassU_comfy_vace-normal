@@ -137,13 +137,25 @@ VOLUME ["/workspace"]
 EXPOSE 8188
 EXPOSE 8888
 
-# 실행 명령어
+# 실행 명령어(신규)
 CMD bash -c "\
 echo '🌀 A1(AI는 에이원) : https://www.youtube.com/@A01demort' && \
 jupyter lab --ip=0.0.0.0 --port=8888 --allow-root \
 --ServerApp.root_dir=/workspace \
 --ServerApp.token='' --ServerApp.password='' & \
-python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 \
---front-end-version Comfy-Org/ComfyUI_frontend@latest & \
+python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 & \
 /workspace/A1/init_or_check_nodes.sh && \
 wait"
+
+
+
+# # 실행 명령어(기존)
+# CMD bash -c "\
+# echo '🌀 A1(AI는 에이원) : https://www.youtube.com/@A01demort' && \
+# jupyter lab --ip=0.0.0.0 --port=8888 --allow-root \
+# --ServerApp.root_dir=/workspace \
+# --ServerApp.token='' --ServerApp.password='' & \
+# python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 \
+# --front-end-version Comfy-Org/ComfyUI_frontend@latest & \
+# /workspace/A1/init_or_check_nodes.sh && \
+# wait"
