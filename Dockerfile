@@ -32,9 +32,13 @@ RUN mkdir -p /workspace && chmod -R 777 /workspace && \
     chown -R root:root /workspace && \
     git clone https://github.com/comfyanonymous/ComfyUI.git /workspace/ComfyUI && \
     cd /workspace/ComfyUI && \
-    git fetch origin ff57793659702d502506047445f0972b10b6b9fe && \
-    git checkout ff57793659702d502506047445f0972b10b6b9fe
+    git fetch origin b22e97dc && \
+    git checkout b22e97dc
 WORKDIR /workspace/ComfyUI
+
+# 기존(git코드 백업)
+# git fetch origin ff57793659702d502506047445f0972b10b6b9fe && \
+# git checkout ff57793659702d502506047445f0972b10b6b9fe
 
 
 # 의존성 설치
