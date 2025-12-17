@@ -33,7 +33,7 @@ RUN mkdir -p /workspace && chmod -R 777 /workspace && \
     git clone https://github.com/comfyanonymous/ComfyUI.git /workspace/ComfyUI && \
     cd /workspace/ComfyUI && \
     git fetch --tags && \
-    git checkout v0.3.66
+    git checkout v0.3.67
 WORKDIR /workspace/ComfyUI
 
 # 기존(git코드 백업- 최초)
