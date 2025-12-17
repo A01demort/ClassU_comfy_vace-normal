@@ -33,7 +33,7 @@ RUN mkdir -p /workspace && chmod -R 777 /workspace && \
     git clone https://github.com/comfyanonymous/ComfyUI.git /workspace/ComfyUI && \
     cd /workspace/ComfyUI && \
     git fetch --tags && \
-    git checkout v0.3.56
+    git checkout v0.3.60
 WORKDIR /workspace/ComfyUI
 
 # 기존(git코드 백업- 최초)
@@ -148,9 +148,9 @@ echo '🌀 A1(AI는 에이원) : https://www.youtube.com/@A01demort' && \
 jupyter lab --ip=0.0.0.0 --port=8888 --allow-root \
 --ServerApp.root_dir=/workspace \
 --ServerApp.token='' --ServerApp.password='' & \
-python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 --front-end-version Comfy-Org/ComfyUI_frontend@v0.3.67 & \
+python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 & \
 /workspace/A1/init_or_check_nodes.sh && \
-wait"
+wait" 
 
 
 
