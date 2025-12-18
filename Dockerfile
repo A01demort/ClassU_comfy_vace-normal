@@ -67,6 +67,7 @@ c.NotebookApp.terminado_settings = {'shell_command': ['/bin/bash']}" \
 > /root/.jupyter/jupyter_notebook_config.py
 
 
+
 # 커스텀 노드 및 의존성 설치 통합
 RUN echo '📁 커스텀 노드 및 의존성 설치 시작' && \
     mkdir -p /workspace/ComfyUI/custom_nodes && \
@@ -87,7 +88,64 @@ RUN echo '📁 커스텀 노드 및 의존성 설치 시작' && \
     git clone https://github.com/yolain/ComfyUI-Easy-Use.git && cd ComfyUI-Easy-Use && git checkout 11794f7d718dc38dded09e677817add796ce0234 || echo '⚠️ EasyUse 실패' && cd .. && \
     git clone https://github.com/PowerHouseMan/ComfyUI-AdvancedLivePortrait.git && cd ComfyUI-AdvancedLivePortrait && git checkout 3bba732915e22f18af0d221b9c5c282990181f1b || echo '⚠️ LivePortrait 실패' && cd .. && \
     git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git && cd ComfyUI-VideoHelperSuite && git checkout 8e4d79471bf1952154768e8435a9300077b534fa || echo '⚠️ VideoHelper 실패' && cd .. && \
-    git clone https://github.com/Jonseed/ComfyUI-Detail-Daemon.git && cd ComfyUI-Detail-Daemon &중
+    git clone https://github.com/Jonseed/ComfyUI-Detail-Daemon.git && cd ComfyUI-Detail-Daemon && git checkout f391accbda2d309cdcbec65cb9fcc80a41197b20 || echo '⚠️ Daemon 실패' && cd .. && \
+    git clone https://github.com/ssitu/ComfyUI_UltimateSDUpscale.git && cd ComfyUI_UltimateSDUpscale && git checkout 627c871f14532b164331f08d0eebfbf7404161ee || echo '⚠️ Upscale 실패' && cd .. && \
+    git clone https://github.com/risunobushi/comfyUI_FrequencySeparation_RGB-HSV.git && cd comfyUI_FrequencySeparation_RGB-HSV && git checkout 67a08c55ee6aa8e9140616f01497bd54d3533fa6 || echo '⚠️ Frequency 실패' && cd .. && \
+    git clone https://github.com/silveroxides/ComfyUI_bnb_nf4_fp4_Loaders.git && cd ComfyUI_bnb_nf4_fp4_Loaders && git checkout dd2f774a2d3930de06fddc995901c830fc936715 || echo '⚠️ NF4 노드 실패' && cd .. && \
+    git clone https://github.com/kijai/ComfyUI-FramePackWrapper.git && cd ComfyUI-FramePackWrapper && git checkout a7c4b704455aee0d016143f2fc232928cc0f1d83 || echo '⚠️ FramePackWrapper 실패' && cd .. && \
+    git clone https://github.com/pollockjj/ComfyUI-MultiGPU.git && cd ComfyUI-MultiGPU && git checkout 6e4181a7bb5e2ef147aa8e1d0845098a709306a4 || echo '⚠️ MultiGPU 실패' && cd .. && \
+    git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git && cd comfyui_controlnet_aux && git checkout 59b027e088c1c8facf7258f6e392d16d204b4d27 || echo '⚠️ controlnet_aux 실패' && cd .. && \
+    git clone https://github.com/chflame163/ComfyUI_LayerStyle.git && cd ComfyUI_LayerStyle && git checkout 3bfe8e4 || echo '⚠️ ComfyUI_LayerStyle 설치 실패' && cd .. && \
+    git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && cd ComfyUI-Frame-Interpolation && git checkout a969c01dbccd9e5510641be04eb51fe93f6bfc3d || echo '⚠️ Frame-Interpolation 실패' && cd .. && \
+    git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git && cd ComfyUI-Impact-Pack && git checkout 48a814315f500a6f3e87ac4c8446305f8b2ef8f6 || echo '⚠️ Impact-Pack 실패' && cd .. && \
+    git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && cd ComfyUI-WanVideoWrapper && git checkout 6eddec54a69d9fac30b0125a3c06656e7c533eca || echo '⚠️ ComfyUI-WanVideoWrapper 설치 실패' && \
+
+    \
+    echo '📦 segment-anything 설치' && \
+    git clone https://github.com/facebookresearch/segment-anything.git /workspace/segment-anything || echo '⚠️ segment-anything 실패' && \
+    pip install -e /workspace/segment-anything || echo '⚠️ segment-anything pip 설치 실패' && \
+    \
+    echo '📦 ReActor ONNX 모델 설치' && \
+    mkdir -p /workspace/ComfyUI/models/insightface && \
+    wget -O /workspace/ComfyUI/models/insightface/inswapper_128.onnx \
+    https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/inswapper_128.onnx || echo '⚠️ ONNX 다운로드 실패' && \
+    \
+    echo '📦 파이썬 패키지 설치' && \
+    pip install --no-cache-dir \
+        GitPython onnx onnxruntime opencv-python-headless tqdm requests \
+        scikit-image piexif packaging transformers accelerate peft sentencepiece \
+        protobuf scipy einops pandas matplotlib imageio[ffmpeg] pyzbar pillow numba \
+        gguf diffusers insightface dill || echo '⚠️ 일부 pip 설치 실패' && \
+    pip install facelib==0.2.2 mtcnn==0.1.1 || echo '⚠️ facelib 실패' && \
+    pip install facexlib basicsr gfpgan realesrgan || echo '⚠️ facexlib 실패' && \
+    pip install timm || echo '⚠️ timm 실패' && \
+    pip install ultralytics || echo '⚠️ ultralytics 실패' && \
+    pip install ftfy || echo '⚠️ ftfy 실패' && \
+    pip install bitsandbytes xformers || echo '⚠️ bitsandbytes 또는 xformers 설치 실패' && \
+    pip install sageattention || echo '⚠️ sageattention 설치 실패'
+
+
+# A1 폴더 생성 후 자동 커스텀 노드 설치 스크립트 복사
+RUN mkdir -p /workspace/A1
+COPY init_or_check_nodes.sh /workspace/A1/init_or_check_nodes.sh
+RUN chmod +x /workspace/A1/init_or_check_nodes.sh
+
+# Wan2.1_Vace_a1.sh 스크립트 복사 및 실행 권한 설정
+COPY Wan2.1_Vace_a1.sh /workspace/A1/Wan2.1_Vace_a1.sh
+RUN chmod +x /workspace/A1/Wan2.1_Vace_a1.sh
+
+
+
+# 볼륨 마운트
+VOLUME ["/workspace"]
+
+# 포트 설정
+EXPOSE 8188
+EXPOSE 8888
+
+
+
+    
 # 실행 명령어(신규)
 CMD bash -c "\
 echo '🌀 A1(AI는 에이원) : https://www.youtube.com/@A01demort' && \
@@ -97,6 +155,10 @@ jupyter lab --ip=0.0.0.0 --port=8888 --allow-root \
 python -u /workspace/ComfyUI/main.py --listen 0.0.0.0 --port=8188 --front-end-version Comfy-Org/ComfyUI_frontend@1.33.9 & \
 /workspace/A1/init_or_check_nodes.sh && \
 wait"
+
+
+
+
 
 
 
